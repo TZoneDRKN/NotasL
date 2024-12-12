@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style> 
+        body {
+            background-color: rgb(80, 80, 80);
+            color: white;
+            font: normal 20pt arial;
+        } 
+    </style>
+</head>
+<body>
+    <script> 
+        let n1;
+
+        // Loop para garantir que o valor seja válido
+        do {
+            n1 = Number(prompt("Digite sua nota (entre 0 e 10):"));
+            if (n1 < 0 || n1 > 10 || isNaN(n1)) {
+                alert("Valor inválido! Por favor, insira uma nota entre 0 e 10.");
+            }
+        } while (n1 < 0 || n1 > 10 || isNaN(n1));
+
+        // Determina se o aluno foi aprovado ou reprovado
+        let status = n1 >= 6 ? "Aprovado" : "Reprovado";
+
+        // Mostra o resultado
+        alert(`Você está ${status}`);
+        document.write(`Sua nota é ${n1}. Você está ${status}.`);
+    </script>
+</body>
+</html>
