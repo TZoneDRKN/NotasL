@@ -3,13 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora</title>
-    <style> 
+    <title>Calculadora de Notas</title>
+    <style>
+        /* Estilos do corpo */
         body {
-            background-color: rgb(80, 80, 80);
+            background: linear-gradient(to right, #4e54c8, #8f94fb); /* Fundo gradiente */
             color: white;
-            font: normal 20pt arial;
-        } 
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Estilo da caixa de resultado */
+        .result-box {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            font-size: 24px;
+        }
+
+        /* Cor do texto baseado no status */
+        .approved {
+            color: #32CD32; /* Verde */
+        }
+
+        .rejected {
+            color: #FF6347; /* Vermelho */
+        }
+
+        /* Animação de transição suave na cor */
+        .result-box p {
+            transition: color 0.5s ease;
+        }
     </style>
 </head>
 <body>
@@ -26,10 +59,17 @@
 
         // Determina se o aluno foi aprovado ou reprovado
         let status = n1 >= 6 ? "Aprovado" : "Reprovado";
+        let statusClass = status === "Aprovado" ? "approved" : "rejected";
+        
+        // Mensagem
+        let message = `Sua nota é ${n1}. Você está ${status}.`;
 
-        // Mostra o resultado
-        alert(`Você está ${status}`);
-        document.write(`Sua nota é ${n1}. Você está ${status}.`);
+        // Adiciona o resultado na tela
+        document.body.innerHTML = `
+            <div class="result-box">
+                <p class="${statusClass}">${message}</p>
+            </div>
+        `;
     </script>
 </body>
 </html>
