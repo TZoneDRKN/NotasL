@@ -132,11 +132,14 @@
                 return;
             }
 
+            // Armazena o nome no localStorage
+            localStorage.setItem('studentName', name);
+
             document.getElementById("buttons-container").style.display = "block";
         }
 
         function verificarNota(n1) {
-            const name = document.getElementById("name").value;
+            const name = localStorage.getItem('studentName'); // Recupera o nome do localStorage
             let status;
             let statusClass = "";
             let message = `${name}, sua nota é ${n1}.`;
@@ -165,10 +168,15 @@
                 statusClass = "poor animation"; // Animação de nota 0
             }
 
+            // Armazena a nota escolhida no localStorage
+            localStorage.setItem('studentGrade', n1);
+
             // Exibe o resultado na tela
             document.body.innerHTML = `
                 <div class="result-box ${statusClass}">
                     <p>${status}</p>
+                    <p><strong>Nome:</strong> ${name}</p>
+                    <p><strong>Nota:</strong> ${n1}</p>
                 </div>
                 <div class="buttons">
                     <button onclick="window.location.reload()">Tentar novamente</button>
