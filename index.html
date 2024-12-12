@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Notas</title>
     <style>
-        /* Estilos gerais */
         body {
             font-family: 'Arial', sans-serif;
             text-align: center;
@@ -15,11 +14,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #00bcd4, #4caf50); /* Gradiente moderno de fundo */
+            background: linear-gradient(135deg, #00bcd4, #4caf50);
             transition: background 1s ease;
         }
 
-        /* Caixa de resultado */
         .result-box {
             background-color: rgba(0, 0, 0, 0.7);
             padding: 20px;
@@ -32,7 +30,6 @@
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        /* Estilos do botão */
         .buttons {
             margin-top: 30px;
         }
@@ -51,10 +48,9 @@
 
         button:hover {
             background-color: #28a745;
-            transform: scale(1.05); /* Efeito de ampliação ao passar o mouse */
+            transform: scale(1.05);
         }
 
-        /* Estilos do input para nome */
         input[type="text"] {
             padding: 15px;
             font-size: 18px;
@@ -70,23 +66,21 @@
 
         input[type="text"]:focus {
             outline: none;
-            border-color: #32CD32; /* Cor de foco verde */
+            border-color: #32CD32;
         }
 
-        /* Cores baseadas na nota */
         .good {
-            color: #32CD32; /* Verde */
+            color: #32CD32;
         }
 
         .average {
-            color: #FFD700; /* Amarelo */
+            color: #FFD700;
         }
 
         .poor {
-            color: #FF6347; /* Vermelho */
+            color: #FF6347;
         }
 
-        /* Efeito de animação */
         .animation {
             animation: pulse 2s infinite;
         }
@@ -102,12 +96,10 @@
 
     <h1 style="color: white; font-size: 36px; margin-bottom: 20px;">Calculadora de Notas</h1>
     
-    <!-- Input estilizado para o nome -->
     <p style="color: white; font-size: 20px;">Digite o nome do aluno:</p>
     <input type="text" id="name" placeholder="Digite seu nome" required>
     <button onclick="startCalculation()">Continuar</button>
 
-    <!-- Botões para selecionar as notas -->
     <div id="buttons-container" style="display: none;">
         <p style="color: white; font-size: 20px;">Escolha a nota do aluno:</p>
         <button onclick="verificarNota(10)">Nota 10</button>
@@ -124,6 +116,7 @@
     </div>
 
     <script>
+        // Função para começar a calcular
         function startCalculation() {
             const name = document.getElementById("name").value;
 
@@ -132,46 +125,44 @@
                 return;
             }
 
-            // Armazena o nome no localStorage
-            localStorage.setItem('studentName', name);
+            // Armazenar o nome no localStorage
+            localStorage.setItem("studentName", name);
 
             document.getElementById("buttons-container").style.display = "block";
         }
 
+        // Função para verificar a nota e mostrar o resultado
         function verificarNota(n1) {
-            const name = localStorage.getItem('studentName'); // Recupera o nome do localStorage
+            const name = localStorage.getItem("studentName"); // Obtendo o nome armazenado
             let status;
             let statusClass = "";
             let message = `${name}, sua nota é ${n1}.`;
 
-            // Definindo o status de aprovação ou reprovação
+            // Salvar a nota também no localStorage
+            localStorage.setItem("studentGrade", n1);
+
             if (n1 >= 7) {
-                status = `Parabéns, ${name}! Você foi Aprovado! Boas festas!`;
+                status = `Parabéns, você foi Aprovado! Boas festas!`;
                 statusClass = "good";
-                document.body.style.background = "linear-gradient(135deg, #32CD32, #00bcd4)"; /* Gradiente para nota boa */
+                document.body.style.background = "linear-gradient(135deg, #32CD32, #00bcd4)";
             } else if (n1 >= 5) {
-                status = `${name}, você está na recuperação. Nos veremos na escola.`;
+                status = `Você está na recuperação. Nos veremos na escola.`;
                 statusClass = "average";
-                document.body.style.background = "linear-gradient(135deg, #FFD700, #FFA500)"; /* Gradiente para nota média */
+                document.body.style.background = "linear-gradient(135deg, #FFD700, #FFA500)";
             } else {
-                status = `${name}, infelizmente você foi Reprovado. Precisamos melhorar.`;
+                status = `Infelizmente você foi Reprovado. Precisamos melhorar.`;
                 statusClass = "poor";
-                document.body.style.background = "linear-gradient(135deg, #FF6347, #b22222)"; /* Gradiente para nota baixa */
+                document.body.style.background = "linear-gradient(135deg, #FF6347, #b22222)";
             }
 
-            // Adiciona o efeito para a melhor e pior nota
             if (n1 === 10) {
                 status += " Nota máxima! Que incrível!";
-                statusClass = "good animation"; // Usa animação para nota 10
+                statusClass = "good animation";
             } else if (n1 === 0) {
                 status += " Precisa melhorar muito!";
-                statusClass = "poor animation"; // Animação de nota 0
+                statusClass = "poor animation";
             }
 
-            // Armazena a nota escolhida no localStorage
-            localStorage.setItem('studentGrade', n1);
-
-            // Exibe o resultado na tela
             document.body.innerHTML = `
                 <div class="result-box ${statusClass}">
                     <p>${status}</p>
