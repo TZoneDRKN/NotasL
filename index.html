@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Notas</title>
     <style>
-        /* Estilos do corpo */
+        /* Estilos gerais */
         body {
-            background: linear-gradient(to right, #4e54c8, #8f94fb); /* Fundo gradiente */
-            color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             text-align: center;
             padding: 50px;
             min-height: 100vh;
@@ -17,9 +15,11 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            background: linear-gradient(135deg, #00bcd4, #4caf50); /* Gradiente moderno de fundo */
+            transition: background 1s ease;
         }
 
-        /* Estilo da caixa de resultado */
+        /* Caixa de resultado */
         .result-box {
             background-color: rgba(0, 0, 0, 0.7);
             padding: 20px;
@@ -28,48 +28,154 @@
             max-width: 500px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
             font-size: 24px;
+            color: white;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        /* Cor do texto baseado no status */
-        .approved {
+        /* Estilos do botão */
+        .buttons {
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px;
+            font-size: 20px;
+            margin: 10px;
+            background-color: #32CD32;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #28a745;
+            transform: scale(1.05); /* Efeito de ampliação ao passar o mouse */
+        }
+
+        /* Estilos do input para nome */
+        input[type="text"] {
+            padding: 15px;
+            font-size: 18px;
+            width: 80%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            border-radius: 30px;
+            border: 2px solid #00bcd4;
+            background-color: #f1f1f1;
+            color: #333;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #32CD32; /* Cor de foco verde */
+        }
+
+        /* Cores baseadas na nota */
+        .good {
             color: #32CD32; /* Verde */
         }
 
-        .rejected {
+        .average {
+            color: #FFD700; /* Amarelo */
+        }
+
+        .poor {
             color: #FF6347; /* Vermelho */
         }
 
-        /* Animação de transição suave na cor */
-        .result-box p {
-            transition: color 0.5s ease;
+        /* Efeito de animação */
+        .animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
-    <script> 
-        let n1;
 
-        // Loop para garantir que o valor seja válido
-        do {
-            n1 = Number(prompt("Digite sua nota (entre 0 e 10):"));
-            if (n1 < 0 || n1 > 10 || isNaN(n1)) {
-                alert("Valor inválido! Por favor, insira uma nota entre 0 e 10.");
+    <h1 style="color: white; font-size: 36px; margin-bottom: 20px;">Calculadora de Notas</h1>
+    
+    <!-- Input estilizado para o nome -->
+    <p style="color: white; font-size: 20px;">Digite o nome do aluno:</p>
+    <input type="text" id="name" placeholder="Digite seu nome" required>
+    <button onclick="startCalculation()">Continuar</button>
+
+    <!-- Botões para selecionar as notas -->
+    <div id="buttons-container" style="display: none;">
+        <p style="color: white; font-size: 20px;">Escolha a nota do aluno:</p>
+        <button onclick="verificarNota(10)">Nota 10</button>
+        <button onclick="verificarNota(9)">Nota 9</button>
+        <button onclick="verificarNota(8)">Nota 8</button>
+        <button onclick="verificarNota(7)">Nota 7</button>
+        <button onclick="verificarNota(6)">Nota 6</button>
+        <button onclick="verificarNota(5)">Nota 5</button>
+        <button onclick="verificarNota(4)">Nota 4</button>
+        <button onclick="verificarNota(3)">Nota 3</button>
+        <button onclick="verificarNota(2)">Nota 2</button>
+        <button onclick="verificarNota(1)">Nota 1</button>
+        <button onclick="verificarNota(0)">Nota 0</button>
+    </div>
+
+    <script>
+        function startCalculation() {
+            const name = document.getElementById("name").value;
+
+            if (name.trim() === "") {
+                alert("Por favor, insira seu nome.");
+                return;
             }
-        } while (n1 < 0 || n1 > 10 || isNaN(n1));
 
-        // Determina se o aluno foi aprovado ou reprovado
-        let status = n1 >= 6 ? "Aprovado" : "Reprovado";
-        let statusClass = status === "Aprovado" ? "approved" : "rejected";
-        
-        // Mensagem
-        let message = `Sua nota é ${n1}. Você está ${status}.`;
+            document.getElementById("buttons-container").style.display = "block";
+        }
 
-        // Adiciona o resultado na tela
-        document.body.innerHTML = `
-            <div class="result-box">
-                <p class="${statusClass}">${message}</p>
-            </div>
-        `;
+        function verificarNota(n1) {
+            const name = document.getElementById("name").value;
+            let status;
+            let statusClass = "";
+            let message = `${name}, sua nota é ${n1}.`;
+
+            // Definindo o status de aprovação ou reprovação
+            if (n1 >= 7) {
+                status = `Parabéns, ${name}! Você foi Aprovado! Boas festas!`;
+                statusClass = "good";
+                document.body.style.background = "linear-gradient(135deg, #32CD32, #00bcd4)"; /* Gradiente para nota boa */
+            } else if (n1 >= 5) {
+                status = `${name}, você está na recuperação. Nos veremos na escola.`;
+                statusClass = "average";
+                document.body.style.background = "linear-gradient(135deg, #FFD700, #FFA500)"; /* Gradiente para nota média */
+            } else {
+                status = `${name}, infelizmente você foi Reprovado. Precisamos melhorar.`;
+                statusClass = "poor";
+                document.body.style.background = "linear-gradient(135deg, #FF6347, #b22222)"; /* Gradiente para nota baixa */
+            }
+
+            // Adiciona o efeito para a melhor e pior nota
+            if (n1 === 10) {
+                status += " Nota máxima! Que incrível!";
+                statusClass = "good animation"; // Usa animação para nota 10
+            } else if (n1 === 0) {
+                status += " Precisa melhorar muito!";
+                statusClass = "poor animation"; // Animação de nota 0
+            }
+
+            // Exibe o resultado na tela
+            document.body.innerHTML = `
+                <div class="result-box ${statusClass}">
+                    <p>${status}</p>
+                </div>
+                <div class="buttons">
+                    <button onclick="window.location.reload()">Tentar novamente</button>
+                </div>
+            `;
+        }
     </script>
+
 </body>
 </html>
